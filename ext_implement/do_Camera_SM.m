@@ -159,9 +159,9 @@
         @catch (NSException *exception) {
             [_myInvokeResult SetException:exception];
         }
-//        @finally {
-//            [_myScriptEngine Callback:_myCallbackFuncName :_myInvokeResult];
-//        }
+        @finally {
+            [_myScriptEngine Callback:_myCallbackFuncName :_myInvokeResult];
+        }
     }
     [picker dismissViewControllerAnimated:YES completion:^{
         _myInvokeResult = nil;
@@ -172,19 +172,21 @@
 - (void) saveImageToLocal
 {
     NSData * imageData;
-    CGSize size = CGSizeMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width*(self.tempImage.size.height/self.tempImage.size.width));
+    CGSize size;
+    CGFloat hwRatio = self.tempImage.size.height/self.tempImage.size.width;
+    CGFloat whRatio = self.tempImage.size.width/self.tempImage.size.height;
     if (-1 == imageHeight && -1 == imageWidth) {//保持原始比例
-        size = CGSizeMake(imageWidth, imageHeight);
+        size = CGSizeMake(self.tempImage.size.width, self.tempImage.size.height);
     }
     else
     {
         if(-1 == imageWidth)
         {
-            size = CGSizeMake(size.width, imageHeight);
+            size = CGSizeMake(imageHeight*whRatio, imageHeight);
         }
         if(-1 == imageHeight)
         {
-            size = CGSizeMake(imageWidth, size.height);
+            size = CGSizeMake(imageWidth, imageWidth*hwRatio);
         }
     }
     
