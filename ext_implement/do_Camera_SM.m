@@ -159,9 +159,9 @@
         @catch (NSException *exception) {
             [_myInvokeResult SetException:exception];
         }
-        @finally {
-            [_myScriptEngine Callback:_myCallbackFuncName :_myInvokeResult];
-        }
+//        @finally {
+//            [_myScriptEngine Callback:_myCallbackFuncName :_myInvokeResult];
+//        }
     }
     [picker dismissViewControllerAnimated:YES completion:^{
         _myInvokeResult = nil;
