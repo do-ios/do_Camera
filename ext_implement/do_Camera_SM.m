@@ -159,9 +159,6 @@
         @catch (NSException *exception) {
             [_myInvokeResult SetException:exception];
         }
-//        @finally {
-//            [_myScriptEngine Callback:_myCallbackFuncName :_myInvokeResult];
-//        }
     }
     [picker dismissViewControllerAnimated:YES completion:^{
         _myInvokeResult = nil;
@@ -172,7 +169,7 @@
 - (void) saveImageToLocal
 {
     NSData * imageData;
-    CGSize size;
+    CGSize size = CGSizeMake(self.tempImage.size.width, self.tempImage.size.height);
     CGFloat hwRatio = self.tempImage.size.height/self.tempImage.size.width;
     CGFloat whRatio = self.tempImage.size.width/self.tempImage.size.height;
     if (-1 == imageHeight && -1 == imageWidth) {//保持原始比例
