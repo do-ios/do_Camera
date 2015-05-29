@@ -169,7 +169,7 @@
 - (void) saveImageToLocal
 {
     NSData * imageData;
-    CGSize size = CGSizeMake(self.tempImage.size.width, self.tempImage.size.height);
+    CGSize size = CGSizeMake(imageWidth, imageHeight);;
     CGFloat hwRatio = self.tempImage.size.height/self.tempImage.size.width;
     CGFloat whRatio = self.tempImage.size.width/self.tempImage.size.height;
     if (-1 == imageHeight && -1 == imageWidth) {//保持原始比例
