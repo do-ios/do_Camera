@@ -127,6 +127,12 @@
 //        [pickerVC setAllowsEditing:NO];
     id<doIPage> pageModel = _myScriptEngine.CurrentPage;
     UIViewController * currentVC = (UIViewController *)pageModel.PageView;
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0) {
+        currentVC.modalPresentationStyle=UIModalPresentationOverCurrentContext;
+        pickerVC.modalPresentationStyle=UIModalPresentationOverCurrentContext;
+
+    }
     // 更改UI的操作，必须回到主线程
     dispatch_async(dispatch_get_main_queue(), ^{
         [currentVC presentViewController:pickerVC animated:YES completion:^{
@@ -200,12 +206,12 @@
     //写入本地
     NSString * dataFSRootPath = _myScriptEngine.CurrentApp.DataFS.RootPath;
     NSString * fileName = [NSString stringWithFormat:@"%@.jpg",[doUIModuleHelper stringWithUUID]];
-    NSString * filePath = [NSString stringWithFormat:@"%@/tmp/do_Camera",dataFSRootPath];
+    NSString * filePath = [NSString stringWithFormat:@"%@/temp/do_Camera",dataFSRootPath];
     NSString * fileFullName = [NSString stringWithFormat:@"%@/%@",filePath,fileName];
     if(![doIOHelper ExistDirectory:filePath])
         [doIOHelper CreateDirectory:filePath];
     [doIOHelper WriteAllBytes:fileFullName :imageData];
-    [_myInvokeResult SetResultText:[NSString stringWithFormat:@"data://tmp/do_Camera/%@",fileName]];
+    [_myInvokeResult SetResultText:[NSString stringWithFormat:@"data://temp/do_Camera/%@",fileName]];
     [_myScriptEngine Callback:_myCallbackFuncName :_myInvokeResult];
 }
 
