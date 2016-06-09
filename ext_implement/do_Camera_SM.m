@@ -27,6 +27,7 @@
     int imageHeight;
     int imageQuality;
     BOOL isCut;
+    BOOL facingFront;
     UIImagePickerController * pickerVC;
 }
 @property (nonatomic, strong ) UIImage *tempImage;
@@ -83,11 +84,12 @@
     imageQuality = imageQuality < 1 ? 1 : imageQuality;
     //是否启动中间裁剪界面
     isCut = [doJsonHelper GetOneBoolean: _dicParas :@"iscut" :NO];
-    
+    //是否启动前置摄像头
+    facingFront = [doJsonHelper GetOneBoolean: _dicParas :@"facingFront" :NO];
+
     if(pickerVC == nil)
     {
         if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
-            
             if ([[AVCaptureDevice class] respondsToSelector:@selector(authorizationStatusForMediaType:)]) {
                 AVAuthorizationStatus authorizationStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
                 if (authorizationStatus == AVAuthorizationStatusRestricted
@@ -121,10 +123,13 @@
 
 - (void)presentViewController
 {
-//    if(isCut)
-//        [pickerVC setAllowsEditing:YES];
-//    else
-//        [pickerVC setAllowsEditing:NO];
+    if (facingFront) {
+        if ([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront]) {
+            pickerVC.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+        }
+    }else
+        pickerVC.cameraDevice = UIImagePickerControllerCameraDeviceRear;
+
     id<doIPage> pageModel = _myScriptEngine.CurrentPage;
     UIViewController * currentVC = (UIViewController *)pageModel.PageView;
     
