@@ -22,6 +22,8 @@
 #import "doUIModuleHelper.h"
 #import "doYZCropViewController.h"
 
+static NSString *usablePath = @"data://";
+
 @interface do_Camera_SM ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate,doYZCropViewControllerDelegate>{
     int imageWidth;
     int imageHeight;
@@ -38,6 +40,9 @@
 @end
 
 @implementation do_Camera_SM
+{
+    NSString *_outPath;
+}
 #pragma mark -
 #pragma mark - 同步异步方法的实现
 /*
@@ -93,6 +98,17 @@
     isCut = [doJsonHelper GetOneBoolean: _dicParas :@"iscut" :NO];
     //是否启动前置摄像头
     facingFront = [doJsonHelper GetOneBoolean: _dicParas :@"facingFront" :NO];
+    //保存路径
+    _outPath = [doJsonHelper GetOneText:_dicParas :@"outPath" :@""];
+    
+    if (_outPath.length>0) {
+        if (![_outPath hasPrefix:usablePath]) {
+            _outPath = @"";
+        }
+        if (_outPath.length>0) {
+            _outPath = [_outPath substringFromIndex:[_outPath rangeOfString:usablePath].length];
+        }
+    }
 
     if(pickerVC == nil)
     {
@@ -219,11 +235,17 @@
     NSString * dataFSRootPath = _myScriptEngine.CurrentApp.DataFS.RootPath;
     NSString * fileName = [NSString stringWithFormat:@"%@.jpg",[doUIModuleHelper stringWithUUID]];
     NSString * filePath = [NSString stringWithFormat:@"%@/temp/do_Camera",dataFSRootPath];
+    NSString * relativePath = @"data://temp/do_Camera";
+    if (_outPath.length>0) {
+        filePath = [NSString stringWithFormat:@"%@/%@",dataFSRootPath,_outPath];
+        relativePath = _outPath;
+    }
     NSString * fileFullName = [NSString stringWithFormat:@"%@/%@",filePath,fileName];
-    if(![doIOHelper ExistDirectory:filePath])
+    if(![doIOHelper ExistDirectory:filePath]){
         [doIOHelper CreateDirectory:filePath];
+    }
     [doIOHelper WriteAllBytes:fileFullName :imageData];
-    [_myInvokeResult SetResultText:[NSString stringWithFormat:@"data://temp/do_Camera/%@",fileName]];
+    [_myInvokeResult SetResultText:[NSString stringWithFormat:@"%@/%@",relativePath,fileName]];
     [_myScriptEngine Callback:_myCallbackFuncName :_myInvokeResult];
 }
 
