@@ -78,6 +78,13 @@
     imageWidth = [doJsonHelper GetOneInteger: _dicParas :@"width" :-1];
     //图片高度
     imageHeight = [doJsonHelper GetOneInteger: _dicParas :@"height" :-1];
+    
+    if (imageWidth<=0) {
+        imageWidth = -1;
+    }
+    if (imageHeight<=0) {
+        imageHeight = -1;
+    }
     //清晰度1-100
     imageQuality = [doJsonHelper GetOneInteger: _dicParas :@"quality" :100];
     imageQuality = imageQuality > 100 ? 100 : imageQuality;
