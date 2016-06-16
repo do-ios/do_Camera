@@ -235,17 +235,32 @@ static NSString *usablePath = @"data://";
     NSString * dataFSRootPath = _myScriptEngine.CurrentApp.DataFS.RootPath;
     NSString * fileName = [NSString stringWithFormat:@"%@.jpg",[doUIModuleHelper stringWithUUID]];
     NSString * filePath = [NSString stringWithFormat:@"%@/temp/do_Camera",dataFSRootPath];
-    NSString * relativePath = @"data://temp/do_Camera";
+    NSString * relativePath = @"temp/do_Camera";
+    NSString * fileFullName = [NSString stringWithFormat:@"%@/%@",filePath,fileName];
+
     if (_outPath.length>0) {
         filePath = [NSString stringWithFormat:@"%@/%@",dataFSRootPath,_outPath];
         relativePath = _outPath;
+
+        NSString *pathExtension = filePath.pathExtension;
+        NSString *lastCom = filePath.lastPathComponent;
+        if (pathExtension.length==0) {
+            fileFullName = [NSString stringWithFormat:@"%@/%@",filePath,fileName];
+        }else{
+            relativePath = [relativePath stringByDeletingLastPathComponent];
+            fileName = lastCom;
+            fileFullName = [NSString stringWithFormat:@"%@",filePath];
+            filePath = [filePath stringByDeletingLastPathComponent];
+        }
     }
-    NSString * fileFullName = [NSString stringWithFormat:@"%@/%@",filePath,fileName];
-    if(![doIOHelper ExistDirectory:filePath]){
+
+    if (![doIOHelper ExistDirectory:filePath]) {
         [doIOHelper CreateDirectory:filePath];
     }
+    
     [doIOHelper WriteAllBytes:fileFullName :imageData];
-    [_myInvokeResult SetResultText:[NSString stringWithFormat:@"%@/%@",relativePath,fileName]];
+    NSString *resultText = [NSString stringWithFormat:@"data://%@/%@",relativePath,fileName];
+    [_myInvokeResult SetResultText:resultText];
     [_myScriptEngine Callback:_myCallbackFuncName :_myInvokeResult];
 }
 
