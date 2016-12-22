@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3BA0CFD31E0BCF9B00578B3B /* do_Camera_SM.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3BF8964B1D8FD44800E172AF /* do_Camera_SM.bundle */; };
+		3BA0CFD41E0BCF9B00578B3B /* do_Camera_App.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3BF896371D8FD38900E172AF /* do_Camera_App.h */; };
+		3BA0CFD51E0BCF9B00578B3B /* do_Camera_SM.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3BF8963A1D8FD38900E172AF /* do_Camera_SM.h */; };
 		3BF8963C1D8FD38900E172AF /* do_Camera_App.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF896381D8FD38900E172AF /* do_Camera_App.m */; };
 		3BF8963D1D8FD38900E172AF /* do_Camera_SM.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF8963B1D8FD38900E172AF /* do_Camera_SM.m */; };
 		3BF896471D8FD41100E172AF /* doYZCropRectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF896401D8FD41100E172AF /* doYZCropRectView.m */; };
@@ -60,6 +63,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
+				3BA0CFD31E0BCF9B00578B3B /* do_Camera_SM.bundle in CopyFiles */,
+				3BA0CFD41E0BCF9B00578B3B /* do_Camera_App.h in CopyFiles */,
+				3BA0CFD51E0BCF9B00578B3B /* do_Camera_SM.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
