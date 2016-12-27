@@ -160,17 +160,10 @@ static NSString *usablePath = @"data://";
         id<doIPage> pageModel = _myScriptEngine.CurrentPage;
         UIViewController * currentVC = (UIViewController *)pageModel.PageView;
         
-        if ([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0) {
-            currentVC.modalPresentationStyle=UIModalPresentationOverCurrentContext;
-            pickerVC.modalPresentationStyle=UIModalPresentationOverCurrentContext;
-            
-        }
         // 更改UI的操作，必须回到主线程
         dispatch_async(dispatch_get_main_queue(), ^{
-            [currentVC presentViewController:pickerVC animated:YES completion:^{
-                
-                NSLog(@"跳转成功!");
-            }];
+            [[UIApplication sharedApplication] setStatusBarHidden:YES];
+            [currentVC presentViewController:pickerVC animated:YES completion:nil];
         });
     } @catch (NSException *exception) {
         NSLog(@"NSException = %@",exception.description);
@@ -178,11 +171,7 @@ static NSString *usablePath = @"data://";
 }
 
 #pragma mark - 私有方法，支持对外方法的实现
-#pragma mark - UIImagePickerControllerDelegate
-- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
-{
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
-}
+
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     NSString * mediaType = [info objectForKey:UIImagePickerControllerMediaType];
